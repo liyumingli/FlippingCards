@@ -33,12 +33,16 @@ public class FlippingCards extends JFrame {
         for (int i = 0;i < numCards; i++) {
             c.gridx = i % cols;
             c.gridy = i / rows;
-            cards[i] = new Card("pic1.jpg");
+            cards[i] = new Card(this, "pic1.jpg");
 
             imageContainer.add(cards[i], c);
         }
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public void cardClicked (Card whichCard) {
+        System.out.println("A card has been clicked");
     }
 
 }

@@ -17,9 +17,12 @@ public class Card extends JLabel {
     private boolean isForward = false;
     private String cardImage;
     private static String defaultImage = "back.jpg";
+    FlippingCards parent;
 
-    public Card (String cardImage) {
+    public Card (FlippingCards parent, String cardImage) {
         this.cardImage = cardImage;
+
+        this.parent = parent;
 
         setIcon(new ImageIcon(this.getClass().getResource("/images/" + defaultImage)));
 
@@ -30,7 +33,8 @@ public class Card extends JLabel {
 
     private class CardMouseListener extends MouseAdapter {
         public void mousePressed (MouseEvent e) {
-            Card.this.setIcon(new ImageIcon(this.getClass().getResource("/images/" + cardImage)));;
+            Card.this.setIcon(new ImageIcon(this.getClass().getResource("/images/" + cardImage)));
+            parent.cardClicked(Card.this);
         }
     }
 }
