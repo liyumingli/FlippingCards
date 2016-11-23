@@ -15,6 +15,7 @@ import java.net.URI;
 
 public class Card extends JLabel {
     private boolean isForward = false;
+    private boolean isMatched = false;
     private String cardImage;
     private static String defaultImage = "back.jpg";
     FlippingCards parent;
@@ -31,9 +32,35 @@ public class Card extends JLabel {
         addMouseListener(new CardMouseListener());
     }
 
+    public String getCardImage() {
+        return cardImage;
+    }
+
+    public void setForward (boolean isForward) {
+        this.isForward = isForward;
+
+        if (isForward) {
+            Card.this.setIcon(new ImageIcon(this.getClass().getResource("/images/" + cardImage)));
+            super.paintComponent(getGraphics());
+        } else {
+            Card.this.setIcon(new ImageIcon(this.getClass().getResource("/images/" + defaultImage)));
+        }
+    }
+
+    public boolean getIsMatched () {
+        return isMatched;
+    }
+
+    public void setIsMatched (boolean isMatched) {
+        this.isMatched = isMatched;
+    }
+
+    public boolean getIsForward () {
+        return isForward;
+    }
+
     private class CardMouseListener extends MouseAdapter {
         public void mousePressed (MouseEvent e) {
-            Card.this.setIcon(new ImageIcon(this.getClass().getResource("/images/" + cardImage)));
             parent.cardClicked(Card.this);
         }
     }
