@@ -1,17 +1,11 @@
 /**
  * Created by t00180267 on 15/11/2016.
  */
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.net.URI;
 
 public class Card extends JLabel {
     private boolean isForward = false;
@@ -36,7 +30,7 @@ public class Card extends JLabel {
         return cardImage;
     }
 
-    public void setForward (boolean isForward) {
+    public boolean setForward (boolean isForward) {
         this.isForward = isForward;
 
         if (isForward) {
@@ -45,6 +39,7 @@ public class Card extends JLabel {
         } else {
             Card.this.setIcon(new ImageIcon(this.getClass().getResource("/images/" + defaultImage)));
         }
+        return isForward;
     }
 
     public boolean getIsMatched () {
