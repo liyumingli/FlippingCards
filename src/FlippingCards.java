@@ -8,6 +8,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.lang.Thread;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FlippingCards extends JFrame {
     private int rows = 4;
@@ -75,7 +77,7 @@ public class FlippingCards extends JFrame {
 
     public void checkCards(Card card1, Card card2){
         System.out.println("Checking card image");
-        if (card1.getCardImage().equals(card2.getCardImage())){
+        if (card1.getCardImage().equals(card2.getCardImage()) && card1!=card2){
             card1.setForward(true);
             card2.setForward(true);
 
@@ -119,7 +121,6 @@ public class FlippingCards extends JFrame {
                 c2 = whichCard;
                 c2.setForward(true);
             }
-
             if (c1 != null && c2 != null) {
 
                 System.out.println("Two cards have now been selected");
@@ -135,5 +136,38 @@ public class FlippingCards extends JFrame {
             }
         }
     }
+    public class CountUpProgressBar extends JPanel {
 
+        private JProgressBar bar = new JProgressBar(JProgressBar.HORIZONTAL, 0, 100);
+        private JLabel label = new JLabel("", JLabel.CENTER);
+        private Timer timer = new Timer(100, new ActionListener() {
+
+            private int counter = 1;
+            public void actionPerformed(ActionEvent ae) {
+                label.setText(String.valueOf(counter));
+                bar.setValue(++counter);
+                if (counter > 100) {
+                    timer.stop();
+                }
+            }
+        });
+
+        CountUpProgressBar() {
+            super.setLayout(new GridLayout(0, 1));
+            bar.setValue(0);
+            timer.start();
+            this.add(bar);
+            this.add(label);
+            JOptionPane.showMessageDialog(null, this);
+        }
+
+        public void main(String[] args) {
+            SwingUtilities.invokeLater(new Runnable() {
+
+                public void run() {
+                    CountUpProgressBar cdpb = new CountUpProgressBar();
+                }
+            });
+        }
+    }
 }
