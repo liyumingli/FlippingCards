@@ -1,7 +1,6 @@
 /**
  * Created by t00180267 on 15/11/2016.
  */
-import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,22 +9,24 @@ import java.util.Collections;
 import java.lang.Thread;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.CardLayout;
+import javax.swing.JComboBox;
 
-public class FlippingCards extends JFrame implements ActionListener {
-    private int rows = 4;
-    private int cols = 4;
-//    private int NumCard;
+public class FlippingCards extends JFrame implements ActionListener{
+    private int rows;
+    private int cols ;
+    private int score = 0;
     private int numCards = rows * cols;
     private Card[] cards = new Card[numCards];
     private int[] randomIndexes = getRandomIntSequence();
-    private boolean matched=false;
+    private boolean matched =false;
     private Card c1;
     private Card c2;
 //    private Timer t;
-    JPanel card;
-    JButton button1, button2, button3;
-    final static String BUTTONPANEL = "Card with JButtons";
+    private String[] messageStrings = {"Easy", "Normal", "Hard"};
+    private JComboBox comboBoxList = new JComboBox(messageStrings);
+    private JLabel lblText = new JLabel();
+    private int setRows;
+    private int setCols;
 
     public static void main(String[] args) {
         FlippingCards mainFrame = new FlippingCards();
@@ -47,30 +48,7 @@ public class FlippingCards extends JFrame implements ActionListener {
 
         GridBagConstraints c = new GridBagConstraints();
 
-        button1 = new JButton("Easy");
-        button2 = new JButton("Normal");
-        button3 = new JButton("Hard");
 
-        button1.addActionListener(this);
-        button2.addActionListener(this);
-        button3.addActionListener(this);
-
-        JPanel card1 = new JPanel();
-        card1.add(button1);
-        JPanel card2 = new JPanel();
-        card2.add(button2);
-        JPanel card3 = new JPanel();
-        card3.add(button3);
-
-
-        card = new JPanel(new CardLayout());
-
-        card.add(card1);
-        card.add(card2);
-        card.add(card3);
-        card.add(card1, BUTTONPANEL);
-
-        getContentPane().add(card);
 
 
         for (int i = 0;i < numCards; i++) {
@@ -84,27 +62,51 @@ public class FlippingCards extends JFrame implements ActionListener {
 
         }
 
+        setLayout(new FlowLayout());
+        comboBoxList.setSelectedIndex(1);
+        comboBoxList.addActionListener((ActionListener) this);
+        add(comboBoxList);
+        add(lblText);
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
+    public int getRows()
+    {
+        return rows;
+    }
+    public void setRows(int rows)
+    {
+        this.setRows=rows;
+    }
+    public int getCols()
+    {
+        return cols;
+    }
+    public void setCols(int rows){
+        this.setCols=cols;
+    }
+
+
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getSource() == button1){
-            CardLayout cardLayout = (CardLayout) card.getLayout();
-            rows = 4;
-            cols = 4;
-            cardLayout.next(card);
-        }
-          else if (e.getSource() == button2){
-            CardLayout cardLayout = (CardLayout) card.getLayout();
-            rows = 6;
-            cols = 6;
-            cardLayout.next(card);
-        }
-        else{
-            CardLayout cardLayout = (CardLayout) card.getLayout();
-            rows = 8;
-            cols = 8;
-            cardLayout.next(card);
+        if (e.getSource() == comboBoxList){
+            JComboBox cb = (JComboBox)e.getSource();
+            String msg =(String)cb.getSelectedItem();
+                if(e.getSource()=="Easy"){
+                     rows=4;
+                     cols=4;
+                    System.out.println("Easy");
+                }
+                else if(e.getSource()=="Normal"){
+                     rows=6;
+                     cols=6;
+                    System.out.println("Normal");
+                }
+                else if(e.getSource()=="Hard"){
+                     rows=8;
+                     cols=8;
+                    System.out.println("Hard");
+                }
         }
     }
 
@@ -135,10 +137,14 @@ public class FlippingCards extends JFrame implements ActionListener {
 
             card1.setIsMatched(true);
             card2.setIsMatched(true);
+            score += 100;
+            System.out.println(score);
         }
         else{
             card1.setForward(false);
             card2.setForward(false);
+            score -= 10;
+            System.out.println(score);
         }
 
         gameWon();
