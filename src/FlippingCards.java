@@ -10,11 +10,12 @@ import java.lang.Thread;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
+import javax.swing.Timer;
 
 public class FlippingCards extends JFrame implements ActionListener{
-    private int rows;
-    private int cols ;
-    private int score = 0;
+    private int rows=4;
+    private int cols=4;
+    private int step=0;
     private int numCards = rows * cols;
     private Card[] cards = new Card[numCards];
     private int[] randomIndexes = getRandomIntSequence();
@@ -25,8 +26,9 @@ public class FlippingCards extends JFrame implements ActionListener{
     private String[] messageStrings = {"Easy", "Normal", "Hard"};
     private JComboBox comboBoxList = new JComboBox(messageStrings);
     private JLabel lblText = new JLabel();
-    private int setRows;
-    private int setCols;
+//    private int setRows;
+//    private int setCols;
+//    private int delay = 1000;
 
     public static void main(String[] args) {
         FlippingCards mainFrame = new FlippingCards();
@@ -49,8 +51,6 @@ public class FlippingCards extends JFrame implements ActionListener{
         GridBagConstraints c = new GridBagConstraints();
 
 
-
-
         for (int i = 0;i < numCards; i++) {
             c.gridx = randomIndexes[i] % cols;
             c.gridy = randomIndexes[i] / rows;
@@ -59,54 +59,48 @@ public class FlippingCards extends JFrame implements ActionListener{
             cards[i] = new Card(this, "pic" + (int)Math.ceil((i + 1) / 2d) + ".jpg");
 
             imageContainer.add(cards[i], c);
-
         }
 
         setLayout(new FlowLayout());
         comboBoxList.setSelectedIndex(1);
-        comboBoxList.addActionListener((ActionListener) this);
+        comboBoxList.addActionListener(this);
         add(comboBoxList);
         add(lblText);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
-    public int getRows()
-    {
-        return rows;
-    }
-    public void setRows(int rows)
-    {
-        this.setRows=rows;
-    }
-    public int getCols()
-    {
-        return cols;
-    }
-    public void setCols(int rows){
-        this.setCols=cols;
-    }
 
-
+//    public int getRows()
+//    {
+//        return this.rows;
+//    }
+//    public void setRows(int rows)
+//    {
+//        this.setRows=rows;
+//    }
+//    public int getCols()
+//    {
+//        return this.cols;
+//    }
+//    public void setCols(int rows){
+//        this.setCols=cols;
+//    }
     public void actionPerformed(ActionEvent e)
     {
-        if (e.getSource() == comboBoxList){
-            JComboBox cb = (JComboBox)e.getSource();
-            String msg =(String)cb.getSelectedItem();
-                if(e.getSource()=="Easy"){
-                     rows=4;
-                     cols=4;
-                    System.out.println("Easy");
-                }
-                else if(e.getSource()=="Normal"){
-                     rows=6;
-                     cols=6;
-                    System.out.println("Normal");
-                }
-                else if(e.getSource()=="Hard"){
-                     rows=8;
-                     cols=8;
-                    System.out.println("Hard");
-                }
+        if(comboBoxList.equals("Easy")){
+            rows=4;
+            cols=4;
+            System.out.println("Easy");
+        }
+        else if(comboBoxList.equals("Normal")){
+            rows=6;
+            cols=6;
+            System.out.println("Normal");
+        }
+        else if(comboBoxList.equals("Hard")){
+            rows=8;
+            cols=8;
+            System.out.println("Hard");
         }
     }
 
@@ -137,14 +131,14 @@ public class FlippingCards extends JFrame implements ActionListener{
 
             card1.setIsMatched(true);
             card2.setIsMatched(true);
-            score += 100;
-            System.out.println(score);
+            step ++;
+            System.out.println(step);
         }
         else{
             card1.setForward(false);
             card2.setForward(false);
-            score -= 10;
-            System.out.println(score);
+            step ++;
+            System.out.println(step);
         }
 
         gameWon();
