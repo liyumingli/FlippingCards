@@ -13,8 +13,8 @@ import javax.swing.JComboBox;
 import javax.swing.Timer;
 
 public class FlippingCards extends JFrame implements ActionListener{
-    private int rows=4;
-    private int cols=4;
+    private int rows=6;
+    private int cols=6;
     private int step=0;
     private int numCards = rows * cols;
     private Card[] cards = new Card[numCards];
@@ -28,6 +28,7 @@ public class FlippingCards extends JFrame implements ActionListener{
     private JLabel lblText = new JLabel();
     Container imageContainer;
     GridBagConstraints c;
+
 //    private int setRows;
 //    private int setCols;
 //    private int delay = 1000;
@@ -53,6 +54,7 @@ public class FlippingCards extends JFrame implements ActionListener{
         c = new GridBagConstraints();
 
         setLayout(new FlowLayout());
+
         comboBoxList.setSelectedIndex(1);
         comboBoxList.addActionListener(this);
         add(comboBoxList);
@@ -95,17 +97,18 @@ public class FlippingCards extends JFrame implements ActionListener{
             cols=4;
             System.out.println("Easy");
         }
-        else if(valueSelected.equals("Normal")){
-            rows=6;
-            cols=6;
+        else if(valueSelected.equals("Normal")) {
+            rows = 6;
+            cols = 6;
             System.out.println("Normal");
         }
-        else if(valueSelected.equals("Hard")){
-            rows=8;
-            cols=8;
+        else if(valueSelected.equals("Hard")) {
+            rows = 8;
+            cols = 8;
             System.out.println("Hard");
+//            cardImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+//            defaultImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
         }
-        System.out.println();
 
         numCards = rows*cols;
         randomIndexes = getRandomIntSequence();
