@@ -105,6 +105,7 @@ public class FlippingCards extends JFrame implements ActionListener{
             cols=8;
             System.out.println("Hard");
         }
+        System.out.println();
 
         numCards = rows*cols;
         randomIndexes = getRandomIntSequence();
