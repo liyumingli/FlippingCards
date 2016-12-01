@@ -23,9 +23,11 @@ public class FlippingCards extends JFrame implements ActionListener{
     private Card c1;
     private Card c2;
 //    private Timer t;
-    private String[] messageStrings = {"Easy", "Normal", "Hard"};
+    private String[] messageStrings = new String[]{"Easy", "Normal", "Hard"};
     private JComboBox comboBoxList = new JComboBox(messageStrings);
     private JLabel lblText = new JLabel();
+    Container imageContainer;
+    GridBagConstraints c;
 //    private int setRows;
 //    private int setCols;
 //    private int delay = 1000;
@@ -43,13 +45,18 @@ public class FlippingCards extends JFrame implements ActionListener{
 
         setLocationRelativeTo(null);
 
-        Container imageContainer = new Container();
+        imageContainer = new Container();
 
         imageContainer.setLayout(new GridBagLayout());
         add(imageContainer);
 
-        GridBagConstraints c = new GridBagConstraints();
+        c = new GridBagConstraints();
 
+        setLayout(new FlowLayout());
+        comboBoxList.setSelectedIndex(1);
+        comboBoxList.addActionListener(this);
+        add(comboBoxList);
+        add(lblText);
 
         for (int i = 0;i < numCards; i++) {
             c.gridx = randomIndexes[i] % cols;
@@ -60,12 +67,6 @@ public class FlippingCards extends JFrame implements ActionListener{
 
             imageContainer.add(cards[i], c);
         }
-
-        setLayout(new FlowLayout());
-        comboBoxList.setSelectedIndex(1);
-        comboBoxList.addActionListener(this);
-        add(comboBoxList);
-        add(lblText);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
@@ -87,21 +88,36 @@ public class FlippingCards extends JFrame implements ActionListener{
 //    }
     public void actionPerformed(ActionEvent e)
     {
-        if(comboBoxList.equals("Easy")){
+        JComboBox combo = (JComboBox)e.getSource();
+        String valueSelected = (String)combo.getSelectedItem();
+        if(valueSelected.equals("Easy")){//comboBoxList.equals("Easy")){
             rows=4;
             cols=4;
             System.out.println("Easy");
         }
-        else if(comboBoxList.equals("Normal")){
+        else if(valueSelected.equals("Normal")){
             rows=6;
             cols=6;
             System.out.println("Normal");
         }
-        else if(comboBoxList.equals("Hard")){
+        else if(valueSelected.equals("Hard")){
             rows=8;
             cols=8;
             System.out.println("Hard");
         }
+
+        numCards = rows*cols;
+        randomIndexes = getRandomIntSequence();
+        for (int i = 0;i < numCards; i++) {
+            c.gridx = randomIndexes[i] % cols;
+            c.gridy = randomIndexes[i] / rows;
+
+
+            cards[i] = new Card(this, "pic" + (int)Math.ceil((i + 1) / 2d) + ".jpg");
+
+            imageContainer.add(cards[i], c);
+        }
+
     }
 
     private int[] getRandomIntSequence () {
@@ -128,7 +144,6 @@ public class FlippingCards extends JFrame implements ActionListener{
         if (card1.getCardImage().equals(card2.getCardImage()) && card1!=card2){
             card1.setForward(true);
             card2.setForward(true);
-
             card1.setIsMatched(true);
             card2.setIsMatched(true);
             step ++;
@@ -140,9 +155,7 @@ public class FlippingCards extends JFrame implements ActionListener{
             step ++;
             System.out.println(step);
         }
-
         gameWon();
-
     }
 
     public void gameWon () {
