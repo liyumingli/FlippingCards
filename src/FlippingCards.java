@@ -13,8 +13,8 @@ import javax.swing.JComboBox;
 import javax.swing.Timer;
 
 public class FlippingCards extends JFrame implements ActionListener{
-    private int rows=6;
-    private int cols=6;
+    private int rows=4;
+    private int cols=4;
     private int step=0;
     private int numCards = rows * cols;
     private Card[] cards = new Card[numCards];
@@ -116,7 +116,7 @@ public class FlippingCards extends JFrame implements ActionListener{
             c.gridx = randomIndexes[i] % cols;
             c.gridy = randomIndexes[i] / rows;
 
-
+//            System.out.println("pic" + (int)Math.ceil((i + 1) / 2d) + ".jpg");
             cards[i] = new Card(this, "pic" + (int)Math.ceil((i + 1) / 2d) + ".jpg");
 
             imageContainer.add(cards[i], c);
