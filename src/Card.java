@@ -24,6 +24,7 @@ public class Card extends JLabel {
         setBorder(new MatteBorder(1, 1, 1, 1, Color.blue));
 
         addMouseListener(new CardMouseListener());
+
     }
 
     public String getCardImage() {
@@ -58,6 +59,10 @@ public class Card extends JLabel {
         public void mousePressed (MouseEvent e) {
             parent.cardClicked(Card.this);
         }
+    }
+    public void setVisible(boolean setVisible)
+    {
+        return ;
     }
 }
 
