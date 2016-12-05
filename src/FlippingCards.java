@@ -6,6 +6,7 @@ import oracle.jrockit.jfr.JFR;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.lang.Thread;
@@ -16,6 +17,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.Timer;
+
+import static java.awt.SystemColor.menu;
 
 public class FlippingCards extends JFrame implements ActionListener {
     private int rows=4;
@@ -33,6 +36,11 @@ public class FlippingCards extends JFrame implements ActionListener {
     private JLabel lblText = new JLabel();
     Container imageContainer;
     GridBagConstraints c;
+    private int height=850;
+    private int width=900;
+    private JMenu Menu;
+    private JMenuBar menuBar;
+    private JMenuItem menuItem;
 //    JMenu Menu;
 //    JMenuItem item1, item2, item3;
 //    private Image cardImage;
@@ -50,7 +58,7 @@ public class FlippingCards extends JFrame implements ActionListener {
     public FlippingCards () {
         setTitle("Card Flipping Game");
 
-        setSize(850, 900);
+        setSize(width, height);
 
         setLocationRelativeTo(null);
 
@@ -85,8 +93,15 @@ public class FlippingCards extends JFrame implements ActionListener {
 
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
-        JMenu gameMenu = new JMenu("Menu");
+        JMenu gameMenu = new JMenu("Player");
+
         menuBar.add(gameMenu);
+        new JMenuItem("Add palyer");
+        menuBar.add(menuItem);
+
+        menuBar.add(gameMenu);
+        new JMenuItem("Quit player");
+        menuBar.add(menuItem);
 //        newMenuItem("Easy Level", this);
 //        newMenuItem("Normal Level", this);
 //        newMenuItem("Hard Level", this);
@@ -131,6 +146,9 @@ public class FlippingCards extends JFrame implements ActionListener {
         else if(valueSelected.equals("Normal")) {
             rows = 6;
             cols = 6;
+//            this.dispose();
+//            FlippingCards mainFrame = new FlippingCards();
+//            mainFrame.setVisible(true);
             System.out.println("Normal");
         }
         else if(valueSelected.equals("Hard")) {
@@ -140,9 +158,16 @@ public class FlippingCards extends JFrame implements ActionListener {
 //            cardImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 //            defaultImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
         }
-//        else if(valueSelected.equals("Restart"))
-//        {
-//        }
+        else if(valueSelected.equals("Restart"))
+        {
+            this.dispose();
+            FlippingCards mainFrame = new FlippingCards();
+            mainFrame.setVisible(true);
+//            mainFrame.repaint();
+
+            System.out.println("Restart");
+
+        }
 
         numCards = rows*cols;
         randomIndexes = getRandomIntSequence();
@@ -158,10 +183,10 @@ public class FlippingCards extends JFrame implements ActionListener {
             imageContainer.add(cards[i], c);
         }
 
-//        if(e.getSource().equals("Exit"))
-//        {
-//            System.exit(0);
-//        }
+        if(e.getSource().equals("Exit"))
+        {
+            System.exit(0);
+        }
 
     }
 
@@ -248,39 +273,4 @@ public class FlippingCards extends JFrame implements ActionListener {
             }
         }
     }
-
-//    public class CountUpProgressBar extends JPanel {
-//
-//        private JProgressBar bar = new JProgressBar(JProgressBar.HORIZONTAL, 0, 100);
-//        private JLabel label = new JLabel("", JLabel.CENTER);
-//        private Timer timer = new Timer(100, new ActionListener() {
-//
-//            private int counter = 1;
-//            public void actionPerformed(ActionEvent ae) {
-//                label.setText(String.valueOf(counter));
-//                bar.setValue(++counter);
-//                if (counter > 100) {
-//                    timer.stop();
-//                }
-//            }
-//        });
-//
-//        CountUpProgressBar() {
-//            super.setLayout(new GridLayout(0, 1));
-//            bar.setValue(0);
-//            timer.start();
-//            this.add(bar);
-//            this.add(label);
-//            JOptionPane.showMessageDialog(null, this);
-//        }
-//
-//        public void main(String[] args) {
-//            SwingUtilities.invokeLater(new Runnable() {
-//
-//                public void run() {
-//                    CountUpProgressBar cdpb = new CountUpProgressBar();
-//                }
-//            });
-//        }
-//    }
 }
