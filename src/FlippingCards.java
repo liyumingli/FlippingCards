@@ -4,6 +4,7 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.lang.Thread;
@@ -13,6 +14,8 @@ import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import java.util.Hashtable;
+import java.util.Enumeration;
 
 public class FlippingCards extends JFrame implements ActionListener {
     private int rows=4;
@@ -29,32 +32,15 @@ public class FlippingCards extends JFrame implements ActionListener {
     private JLabel lblText = new JLabel();
     Container imageContainer;
     GridBagConstraints c;
-    private int height=900;
-    private int width=900;
+    private int height=950;
+    private int width=950;
     private String player;
+    JMenu menu;
+    private int content;
 
     public static void main(String[] args) {
         FlippingCards mainFrame = new FlippingCards();
         mainFrame.setVisible(true);
-
-        JMenuBar menuBar= new JMenuBar();
-        mainFrame.setJMenuBar(menuBar);
-
-        JMenu menu = new JMenu("Menu");
-        menuBar.add(menu);
-
-        JMenuItem addMenu = new JMenuItem("Add Player");
-        menu.add(addMenu);
-
-        JMenuItem quitMenu= new JMenuItem("Quit Player");
-        menu.add(quitMenu);
-
-        JMenu exit = new JMenu("Exit");
-        mainFrame.add(exit);
-
-        addMenu.addActionListener((ActionListener) addMenu);
-        quitMenu.addActionListener((ActionListener) quitMenu);
-        exit.addActionListener((ActionListener) exit);
     }
 
 
@@ -65,6 +51,12 @@ public class FlippingCards extends JFrame implements ActionListener {
 
         setLocationRelativeTo(null);
 
+        createMenu();
+
+        JMenuBar menuBar= new JMenuBar();
+        setJMenuBar(menuBar);
+        menuBar.add(menu);
+
         imageContainer = new Container();
 
         imageContainer.setLayout(new GridBagLayout());
@@ -73,6 +65,7 @@ public class FlippingCards extends JFrame implements ActionListener {
         c = new GridBagConstraints();
 
         setLayout(new FlowLayout());
+
 
 
         comboBoxList.setSelectedIndex(1);
@@ -88,14 +81,79 @@ public class FlippingCards extends JFrame implements ActionListener {
 
             imageContainer.add(cards[i], c);
         }
-
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(ActionEvent event)
     {
-        JComboBox combo = (JComboBox)e.getSource();
+
+        String  menuName;
+        menuName = event.getActionCommand();
+
+        if(menuName.equals("Save"))
+        {
+            File file = new File("C:/Users/t00180267/Desktop/abc.java");
+
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            FileWriter fw = null;
+            try {
+                fw = new FileWriter(file.getAbsoluteFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            BufferedWriter bw = new BufferedWriter(fw);
+            try {
+                bw.write(content);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            JOptionPane.showMessageDialog(null,"Receipt Saved!");
+        }
+
+        else if(menuName.equals("Open"))
+        {
+            File desktopDir = new File(System.getProperty("user.home"), "Desktop");
+            System.out.println(desktopDir.getPath() + " " + desktopDir.exists());
+
+            try {
+                Desktop.getDesktop().open(desktopDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(menuName.equals("Exit"))
+        {
+            System.exit(0);
+            System.out.println("out");
+        }
+        else if(menuName.equals("Add Player"))
+        {
+            player = JOptionPane.showInputDialog(null, "Please enter your name");
+            System.out.println(player);
+        }
+        else if(menuName.equals("Log Out"))
+        {
+            player = null;
+            System.out.println("OUT");
+        }
+
+
+        JComboBox combo = (JComboBox)event.getSource();
         String valueSelected = (String)combo.getSelectedItem();
+
         if(valueSelected.equals("Easy")){
             rows=4;
             cols=4;
@@ -104,9 +162,9 @@ public class FlippingCards extends JFrame implements ActionListener {
         else if(valueSelected.equals("Normal")) {
             rows = 6;
             cols = 6;
-//            this.dispose();
-//            FlippingCards mainFrame = new FlippingCards();
-//            mainFrame.setVisible(true);
+            this.dispose();
+            FlippingCards mainFrame = new FlippingCards();
+            mainFrame.setVisible(true);
             System.out.println("Normal");
         }
         else if(valueSelected.equals("Hard")) {
@@ -127,18 +185,7 @@ public class FlippingCards extends JFrame implements ActionListener {
         }
 
 
-        if(e.getSource().equals("Exit"))
-        {
-            System.exit(0);
-        }
-        else if(e.getSource().equals("Add player"))
-        {
-            player = JOptionPane.showInputDialog(null, "Please enter your name");
-        }
-        else if(e.getSource().equals("Quit player"))
-        {
-            player = null;
-        }
+
 
         numCards = rows*cols;
         randomIndexes = getRandomIntSequence();
@@ -152,6 +199,36 @@ public class FlippingCards extends JFrame implements ActionListener {
 
             imageContainer.add(cards[i], c);
         }
+    }
+    private void createMenu(){
+
+        menu = new JMenu("Menu");
+
+        JMenuItem save = new JMenuItem("Save");
+        save.addActionListener( this );
+        menu.add(save);
+
+        JMenuItem open = new JMenuItem("Open");
+        open.addActionListener( this );
+        menu.add(open);
+
+        JMenuItem addMenu = new JMenuItem("Add Player");
+        addMenu.addActionListener( this );
+        menu.add(addMenu);
+
+        JMenuItem quitMenu= new JMenuItem("Log Out");
+        quitMenu.addActionListener( this );
+        menu.add(quitMenu);
+
+        JMenuItem exit = new JMenuItem("Exit");
+        exit.addActionListener( this );
+        menu.add(exit);
+
+
+
+//        addMenu.addActionListener((ActionListener) addMenu);
+//        quitMenu.addActionListener((ActionListener) quitMenu);
+//        exit.addActionListener((ActionListener) exit);
     }
 
     private int[] getRandomIntSequence () {
