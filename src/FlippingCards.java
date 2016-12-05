@@ -2,11 +2,8 @@
  * Created by t00180267 on 15/11/2016.
  */
 
-import oracle.jrockit.jfr.JFR;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.lang.Thread;
@@ -16,9 +13,6 @@ import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.Timer;
-
-import static java.awt.SystemColor.menu;
 
 public class FlippingCards extends JFrame implements ActionListener {
     private int rows=4;
@@ -28,7 +22,6 @@ public class FlippingCards extends JFrame implements ActionListener {
     private int numCards = rows * cols;
     private Card[] cards = new Card[numCards];
     private int[] randomIndexes = getRandomIntSequence();
-//    private boolean matched =false;
     private Card c1;
     private Card c2;
     private String[] messageStrings = new String[]{"Easy", "Normal", "Hard", "Restart"};
@@ -36,29 +29,39 @@ public class FlippingCards extends JFrame implements ActionListener {
     private JLabel lblText = new JLabel();
     Container imageContainer;
     GridBagConstraints c;
-    private int height=850;
+    private int height=900;
     private int width=900;
-    private JMenu Menu;
-    private JMenuBar menuBar;
-    private JMenuItem menuItem;
-//    JMenu Menu;
-//    JMenuItem item1, item2, item3;
-//    private Image cardImage;
-//    private Image defaultImage;
-
-//    private int setRows;
-//    private int setCols;
-//    private int delay = 1000;
+    private String player;
 
     public static void main(String[] args) {
         FlippingCards mainFrame = new FlippingCards();
         mainFrame.setVisible(true);
+
+        JMenuBar menuBar= new JMenuBar();
+        mainFrame.setJMenuBar(menuBar);
+
+        JMenu menu = new JMenu("Menu");
+        menuBar.add(menu);
+
+        JMenuItem addMenu = new JMenuItem("Add Player");
+        menu.add(addMenu);
+
+        JMenuItem quitMenu= new JMenuItem("Quit Player");
+        menu.add(quitMenu);
+
+        JMenu exit = new JMenu("Exit");
+        mainFrame.add(exit);
+
+        addMenu.addActionListener((ActionListener) addMenu);
+        quitMenu.addActionListener((ActionListener) quitMenu);
+        exit.addActionListener((ActionListener) exit);
     }
+
 
     public FlippingCards () {
         setTitle("Card Flipping Game");
 
-        setSize(width, height);
+        setSize(height, width);
 
         setLocationRelativeTo(null);
 
@@ -70,6 +73,7 @@ public class FlippingCards extends JFrame implements ActionListener {
         c = new GridBagConstraints();
 
         setLayout(new FlowLayout());
+
 
         comboBoxList.setSelectedIndex(1);
         comboBoxList.addActionListener(this);
@@ -85,54 +89,8 @@ public class FlippingCards extends JFrame implements ActionListener {
             imageContainer.add(cards[i], c);
         }
 
-//        Menu = new JMenu("Menu");
-//
-//        item1= new JMenuItem("Exit");
-//        item1.addActionListener(this);
-//        Menu.add(item1);
-
-        JMenuBar menuBar = new JMenuBar();
-        this.setJMenuBar(menuBar);
-        JMenu gameMenu = new JMenu("Player");
-
-        menuBar.add(gameMenu);
-        new JMenuItem("Add palyer");
-        menuBar.add(menuItem);
-
-        menuBar.add(gameMenu);
-        new JMenuItem("Quit player");
-        menuBar.add(menuItem);
-//        newMenuItem("Easy Level", this);
-//        newMenuItem("Normal Level", this);
-//        newMenuItem("Hard Level", this);
-
-        gameMenu = new JMenu("Exit");
-        menuBar.add(gameMenu);
-        newMenuItem("Exit", this);
-
-
-
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
-
-    private void newMenuItem(String s, FlippingCards flippingCards) {
-    }
-
-//    public int getRows()
-//    {
-//        return this.rows;
-//    }
-//    public void setRows(int rows)
-//    {
-//        this.setRows=rows;
-//    }
-//    public int getCols()
-//    {
-//        return this.cols;
-//    }
-//    public void setCols(int rows){
-//        this.setCols=cols;
-//    }
 
     public void actionPerformed(ActionEvent e)
     {
@@ -166,7 +124,20 @@ public class FlippingCards extends JFrame implements ActionListener {
 //            mainFrame.repaint();
 
             System.out.println("Restart");
+        }
 
+
+        if(e.getSource().equals("Exit"))
+        {
+            System.exit(0);
+        }
+        else if(e.getSource().equals("Add player"))
+        {
+            player = JOptionPane.showInputDialog(null, "Please enter your name");
+        }
+        else if(e.getSource().equals("Quit player"))
+        {
+            player = null;
         }
 
         numCards = rows*cols;
@@ -177,17 +148,10 @@ public class FlippingCards extends JFrame implements ActionListener {
             c.gridx = randomIndexes[i] % cols;
             c.gridy = randomIndexes[i] / rows;
 
-//           System.out.println("pic" + (int)Math.ceil((i + 1) / 2d) + ".jpg");
             cards[i] = new Card(this, "pic" + (int)Math.ceil((i + 1) / 2d) + ".jpg");
 
             imageContainer.add(cards[i], c);
         }
-
-        if(e.getSource().equals("Exit"))
-        {
-            System.exit(0);
-        }
-
     }
 
     private int[] getRandomIntSequence () {
@@ -242,7 +206,7 @@ public class FlippingCards extends JFrame implements ActionListener {
         if (i == cards.length) {
             JOptionPane.showMessageDialog(
                 this,
-                "Congratulations! You won the game! " + Score +"Points, " + step + " steps",
+                "Congratulations " + player + "!" + " You won the game! " + Score +"Points, " + step + " steps",
                 "Game Won",
                 JOptionPane.INFORMATION_MESSAGE
             );
