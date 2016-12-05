@@ -92,47 +92,47 @@ public class FlippingCards extends JFrame implements ActionListener {
 
         if(menuName.equals("Save"))
         {
-            File file = new File("C:/Users/t00180267/Desktop/abc.java");
-
-            if (!file.exists()) {
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            FileWriter fw = null;
-            try {
-                fw = new FileWriter(file.getAbsoluteFile());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            BufferedWriter bw = new BufferedWriter(fw);
-            try {
-                bw.write(content);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                bw.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            JOptionPane.showMessageDialog(null,"Receipt Saved!");
+//            File file = new File("C:/Users/t00180267/Desktop/abc.java");
+//
+//            if (!file.exists()) {
+//                try {
+//                    file.createNewFile();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            FileWriter fw = null;
+//            try {
+//                fw = new FileWriter(file.getAbsoluteFile());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            BufferedWriter bw = new BufferedWriter(fw);
+//            try {
+//                bw.write(content);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                bw.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            JOptionPane.showMessageDialog(null,"Receipt Saved!");
         }
 
         else if(menuName.equals("Open"))
         {
-            File desktopDir = new File(System.getProperty("user.home"), "Desktop");
-            System.out.println(desktopDir.getPath() + " " + desktopDir.exists());
-
-            try {
-                Desktop.getDesktop().open(desktopDir);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            File desktopDir = new File(System.getProperty("user.home"), "Desktop");
+//            System.out.println(desktopDir.getPath() + " " + desktopDir.exists());
+//
+//            try {
+//                Desktop.getDesktop().open(desktopDir);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
         else if(menuName.equals("Exit"))
         {
@@ -151,54 +151,51 @@ public class FlippingCards extends JFrame implements ActionListener {
         }
 
 
-        JComboBox combo = (JComboBox)event.getSource();
-        String valueSelected = (String)combo.getSelectedItem();
-
-        if(valueSelected.equals("Easy")){
-            rows=4;
-            cols=4;
-            System.out.println("Easy");
-        }
-        else if(valueSelected.equals("Normal")) {
-            rows = 6;
-            cols = 6;
-            this.dispose();
-            FlippingCards mainFrame = new FlippingCards();
-            mainFrame.setVisible(true);
-            System.out.println("Normal");
-        }
-        else if(valueSelected.equals("Hard")) {
-            rows = 8;
-            cols = 8;
-            System.out.println("Hard");
-//            cardImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-//            defaultImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-        }
-        else if(valueSelected.equals("Restart"))
-        {
-            this.dispose();
-            FlippingCards mainFrame = new FlippingCards();
-            mainFrame.setVisible(true);
-//            mainFrame.repaint();
-
-            System.out.println("Restart");
-        }
-
-
-
-
-        numCards = rows*cols;
-        randomIndexes = getRandomIntSequence();
-        cards = new Card[numCards];
-
-        for (int i = 0;i < numCards; i++) {
-            c.gridx = randomIndexes[i] % cols;
-            c.gridy = randomIndexes[i] / rows;
-
-            cards[i] = new Card(this, "pic" + (int)Math.ceil((i + 1) / 2d) + ".jpg");
-
-            imageContainer.add(cards[i], c);
-        }
+//        JComboBox combo = (JComboBox)event.getSource();
+//        String valueSelected = (String)combo.getSelectedItem();
+//
+//        if(valueSelected.equals("Easy")){
+//            rows=4;
+//            cols=4;
+//            System.out.println("Easy");
+//        }
+//        else if(valueSelected.equals("Normal")) {
+//            rows = 6;
+//            cols = 6;
+//            this.dispose();
+//            FlippingCards mainFrame = new FlippingCards();
+//            mainFrame.setVisible(true);
+//            System.out.println("Normal");
+//        }
+//        else if(valueSelected.equals("Hard")) {
+//            rows = 8;
+//            cols = 8;
+//            System.out.println("Hard");
+////            cardImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+////            defaultImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+//        }
+//        else if(valueSelected.equals("Restart"))
+//        {
+//            this.dispose();
+//            FlippingCards mainFrame = new FlippingCards();
+//            mainFrame.setVisible(true);
+////            mainFrame.repaint();
+//
+//            System.out.println("Restart");
+//        }
+//
+//        numCards = rows*cols;
+//        randomIndexes = getRandomIntSequence();
+//        cards = new Card[numCards];
+//
+//        for (int i = 0;i < numCards; i++) {
+//            c.gridx = randomIndexes[i] % cols;
+//            c.gridy = randomIndexes[i] / rows;
+//
+//            cards[i] = new Card(this, "pic" + (int)Math.ceil((i + 1) / 2d) + ".jpg");
+//
+//            imageContainer.add(cards[i], c);
+//        }
     }
     private void createMenu(){
 
