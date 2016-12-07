@@ -15,8 +15,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class FlippingCards extends JFrame implements ActionListener {
-    private int rows=6;
-    private int cols=6;
+    private int rows=4;
+    private int cols=4;
     private int step=0;
     private int numCards = rows * cols;
     private Card[] cards = new Card[numCards];
