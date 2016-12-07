@@ -10,34 +10,27 @@ import java.util.Collections;
 import java.lang.Thread;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import java.util.Hashtable;
-import java.util.Enumeration;
 
 public class FlippingCards extends JFrame implements ActionListener {
-    private int rows=4;
-    private int cols=4;
+    private int rows=6;
+    private int cols=6;
     private int step=0;
     private int numCards = rows * cols;
     private Card[] cards = new Card[numCards];
     private int[] randomIndexes = getRandomIntSequence();
     private Card c1;
     private Card c2;
-//    private String[] messageStrings = new String[]{"Easy", "Normal", "Hard", "Restart"};
-//    private JComboBox comboBoxList = new JComboBox(messageStrings);
-//    private JLabel lblText = new JLabel();
-    Container imageContainer;
-    GridBagConstraints c;
+    private Container imageContainer;
+    private GridBagConstraints c;
     private int height=950;
     private int width=950;
     private String player;
-    JMenu menu;
-    JMenu GameMenu;
-    JMenuBar menuBar;
-    private int content;
+    private JMenu menu;
+    private JMenu GameMenu;
+    private JMenuBar menuBar;
 
     public static void main(String[] args) {
         FlippingCards mainFrame = new FlippingCards();
@@ -68,11 +61,6 @@ public class FlippingCards extends JFrame implements ActionListener {
 
         setLayout(new FlowLayout());
 
-//        comboBoxList.setSelectedIndex(1);
-//        comboBoxList.addActionListener(this);
-//        add(comboBoxList);
-//        add(lblText);
-
         for (int i = 0;i < numCards; i++) {
             c.gridx = randomIndexes[i] % cols;
             c.gridy = randomIndexes[i] / rows;
@@ -92,47 +80,68 @@ public class FlippingCards extends JFrame implements ActionListener {
 
         if(menuName.equals("Save"))
         {
-            File file = new File("C:/Users/t00180267/Desktop/abc.java");
-
-            if (!file.exists()) {
-                try {
-                    file.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            FileWriter fw = null;
+            File outFile = new File("C:/Users/t00180267/Desktop/cards.data");
+            FileOutputStream outFileStream = null;
             try {
-                fw = new FileWriter(file.getAbsoluteFile());
-            } catch (IOException e) {
+                outFileStream = new FileOutputStream(outFile);
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            BufferedWriter bw = new BufferedWriter(fw);
+            ObjectOutputStream os = null;
             try {
-                bw.write(content);
+                os = new ObjectOutputStream(outFileStream);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                bw.close();
+                os.writeObject(numCards);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            JOptionPane.showMessageDialog(null,"Receipt Saved!");
+            try {
+                os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            JOptionPane.showMessageDialog(null,"Saved!");
         }
 
         else if(menuName.equals("Open"))
         {
-            File desktopDir = new File(System.getProperty("user.home"), "Desktop");
-            System.out.println(desktopDir.getPath() + " " + desktopDir.exists());
-
+            File inFile = new File("card.data");
+            FileInputStream inFileStream = null;
             try {
-                Desktop.getDesktop().open(desktopDir);
+                inFileStream = new FileInputStream(inFile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            ObjectInputStream in = null;
+            try {
+                in = new ObjectInputStream(inFileStream);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            try {
+                in.readObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+//            File inFile = new File(System.getProperty("user.home"), "Desktop");
+//            System.out.println(inFile.getPath() + " " + inFile.exists());
+//
+//            try {
+//                Desktop.getDesktop().open(inFile);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
         else if(menuName.equals("Exit"))
         {
@@ -184,52 +193,6 @@ public class FlippingCards extends JFrame implements ActionListener {
             System.out.println("Restart");
         }
 
-
-//        JComboBox combo = (JComboBox)event.getSource();
-//        String valueSelected = (String)combo.getSelectedItem();
-//
-//        if(valueSelected.equals("Easy")){
-//            rows=4;
-//            cols=4;
-//            System.out.println("Easy");
-//        }
-//        else if(valueSelected.equals("Normal")) {
-//            rows = 6;
-//            cols = 6;
-//            this.dispose();
-//            FlippingCards mainFrame = new FlippingCards();
-//            mainFrame.setVisible(true);
-//            System.out.println("Normal");
-//        }
-//        else if(valueSelected.equals("Hard")) {
-//            rows = 8;
-//            cols = 8;
-//            System.out.println("Hard");
-//            cardImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-//            defaultImage.getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-//        }
-//        else if(valueSelected.equals("Restart"))
-//        {
-//            this.dispose();
-//            FlippingCards mainFrame = new FlippingCards();
-//            mainFrame.setVisible(true);
-////            mainFrame.repaint();
-//
-//            System.out.println("Restart");
-//        }
-//
-//        numCards = rows*cols;
-//        randomIndexes = getRandomIntSequence();
-//        cards = new Card[numCards];
-//
-//        for (int i = 0;i < numCards; i++) {
-//            c.gridx = randomIndexes[i] % cols;
-//            c.gridy = randomIndexes[i] / rows;
-//
-//            cards[i] = new Card(this, "pic" + (int)Math.ceil((i + 1) / 2d) + ".jpg");
-//
-//            imageContainer.add(cards[i], c);
-//        }
     }
     private void createMenu(){
 
