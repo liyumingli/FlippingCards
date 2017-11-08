@@ -2,6 +2,8 @@
  * Created by t00180267 on 15/11/2016.
  */
 
+import com.sun.org.apache.regexp.internal.RE;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -15,8 +17,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class FlippingCards extends JFrame implements ActionListener {
-    private int rows=4;
-    private int cols=4;
+    public  int rows;
+    public int cols;
     private int step=0;
     private int numCards = rows * cols;
     private Card[] cards = new Card[numCards];
@@ -32,12 +34,40 @@ public class FlippingCards extends JFrame implements ActionListener {
     private JMenu GameMenu;
     private JMenuBar menuBar;
 
+    public FlippingCards(int rows, int cols,int numCards)
+    {
+        setCows(cols);
+        setRows(rows);
+    }
+    public void setRows(int rows){
+        this.rows=rows;
+    }
+    public int getRows(){
+        return getRows();
+    }
+    public void setCows(int cols){
+        this.cols=cols;
+    }
+    public int getCows(){
+        return getCows();
+    }
+    public void setNumCards(int numCards){
+        this.numCards=numCards;
+    }
+    public int getNumCards(){
+        return getNumCards();
+    }
+
     public static void main(String[] args) {
         FlippingCards mainFrame = new FlippingCards();
         mainFrame.setVisible(true);
         mainFrame.getContentPane().setBackground( Color.white );
     }
     public FlippingCards () {
+        this.rows=0;
+        this.cols=0;
+        this.numCards=0;
+
         setTitle("Card Flipping Game");
 
         setSize(height, width);
@@ -60,6 +90,7 @@ public class FlippingCards extends JFrame implements ActionListener {
         c = new GridBagConstraints();
 
         setLayout(new FlowLayout());
+
 
         for (int i = 0;i < numCards; i++) {
             c.gridx = randomIndexes[i] % cols;
@@ -163,8 +194,8 @@ public class FlippingCards extends JFrame implements ActionListener {
             this.dispose();
             FlippingCards mainFrame = new FlippingCards();
             mainFrame.setVisible(true);
-            rows=4;
-            cols=4;
+            setRows(4);
+            setCows(4);
             System.out.println(rows);
         }
         else if(menuName.equals("Normal"))
@@ -172,8 +203,8 @@ public class FlippingCards extends JFrame implements ActionListener {
             this.dispose();
             FlippingCards mainFrame = new FlippingCards();
             mainFrame.setVisible(true);
-            rows=6;
-            cols=6;
+            this.setRows(6);
+            this.setCows(6);
             System.out.println(rows);
         }
         else if(menuName.equals("Hard"))
@@ -181,8 +212,8 @@ public class FlippingCards extends JFrame implements ActionListener {
             this.dispose();
             FlippingCards mainFrame = new FlippingCards();
             mainFrame.setVisible(true);
-            rows=8;
-            cols=8;
+            this.setRows(8);
+            this.setCows(8);
             System.out.println(rows);
         }
         else if(menuName.equals("Restart"))
@@ -324,7 +355,7 @@ public class FlippingCards extends JFrame implements ActionListener {
             if (c1 != null && c2 != null) {
 
                 System.out.println("Two cards have now been selected");
-                try  {
+                try {
                     Thread.sleep(1000);
                     checkCards(c1, c2);
                     c1 = null;
